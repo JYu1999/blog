@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTweet extends CreateRecord
 {
     protected static string $resource = TweetResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

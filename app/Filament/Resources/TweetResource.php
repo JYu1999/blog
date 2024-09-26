@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TweetResource\Pages;
-use App\Filament\Resources\TweetResource\RelationManagers;
+use App\Models\Tag;
 use App\Models\Tweet;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -25,6 +25,17 @@ class TweetResource extends Resource
             ->schema([
                 Forms\Components\MarkdownEditor::make(Tweet::CONTENT)->required(),
                 Forms\Components\Toggle::make(Tweet::IS_PUBLISHED),
+                Forms\Components\Select::make('tags')
+                    ->label('Tags')
+                    ->multiple()
+                    ->relationship('tags', Tag::NAME)
+                    // 直接 preloading 出來可能會造成 memory 爆掉的問題，但目前預期 tag 只有 Admin 能新增，不太可能很多
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make(Tag::NAME)
+                            ->required()
+                            ->unique(table: Tag::TABLE, ignorable: fn($record) => $record),
+                    ]),
             ]);
     }
 
@@ -32,7 +43,8 @@ class TweetResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make(Tweet::CONTENT),
+                Tables\Columns\TextColumn::make(Tweet::CONTENT)->limit(30),
+                Tables\Columns\TextColumn::make(Tag::TABLE . '.' . Tag::NAME)->label('Tags')->badge(),
                 Tables\Columns\ToggleColumn::make(Tweet::IS_PUBLISHED)->sortable(),
             ])
             ->filters([

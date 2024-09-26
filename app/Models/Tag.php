@@ -13,6 +13,8 @@ class Tag extends Model
 
     protected $table = self::TABLE;
 
+    public $timestamps = false;
+
     /**
      * Columns
      */
