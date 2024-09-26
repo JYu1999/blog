@@ -34,7 +34,6 @@ class TweetResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make(Tweet::CONTENT),
                 Tables\Columns\ToggleColumn::make(Tweet::IS_PUBLISHED)->sortable(),
-                Tables\Columns\TextColumn::make(Tweet::IS_PUBLISHED)->since()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
