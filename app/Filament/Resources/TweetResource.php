@@ -23,8 +23,8 @@ class TweetResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\MarkdownEditor::make('content')->required(),
-                Forms\Components\Toggle::make('is_published'),
+                Forms\Components\MarkdownEditor::make(Tweet::CONTENT)->required(),
+                Forms\Components\Toggle::make(Tweet::IS_PUBLISHED),
             ]);
     }
 
@@ -32,8 +32,9 @@ class TweetResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('content'),
-                Tables\Columns\ToggleColumn::make('is_published'),
+                Tables\Columns\TextColumn::make(Tweet::CONTENT),
+                Tables\Columns\ToggleColumn::make(Tweet::IS_PUBLISHED)->sortable(),
+                Tables\Columns\TextColumn::make(Tweet::IS_PUBLISHED)->since()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

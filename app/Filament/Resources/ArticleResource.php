@@ -22,9 +22,9 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->required(),
-                Forms\Components\MarkdownEditor::make('content')->required(),
-                Forms\Components\Toggle::make('is_published'),
+                Forms\Components\TextInput::make(Article::TITLE)->required(),
+                Forms\Components\MarkdownEditor::make(Article::CONTENT)->required(),
+                Forms\Components\Toggle::make(Article::IS_PUBLISHED),
             ]);
     }
 
@@ -32,9 +32,9 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\ToggleColumn::make('is_published'),
-                Tables\Columns\TextColumn::make('created_at')->since(),
+                Tables\Columns\TextColumn::make(Article::TITLE),
+                Tables\Columns\ToggleColumn::make(Article::IS_PUBLISHED)->sortable(),
+                Tables\Columns\TextColumn::make(Article::CREATED_AT)->since()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

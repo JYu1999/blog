@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Tweet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tweets', function (Blueprint $table) {
-            $table->id();
-            $table->text('content');
-            $table->boolean('is_published')->default(false);
+        Schema::create(Tweet::TABLE, function (Blueprint $table) {
+            $table->uuid(Tweet::ID);
+            $table->text(Tweet::CONTENT);
+            $table->boolean(Tweet::IS_PUBLISHED)->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tweets');
+        Schema::dropIfExists(Tweet::TABLE);
     }
 };
