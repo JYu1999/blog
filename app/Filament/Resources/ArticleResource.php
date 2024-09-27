@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
+use App\Models\Category;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -36,6 +37,16 @@ class ArticleResource extends Resource
                             ->required()
                             ->unique(table: Tag::TABLE, ignorable: fn($record) => $record),
                     ]),
+                Forms\Components\Select::make('categories')
+                    ->label('Categories')
+                    ->multiple()
+                    ->relationship('categories', Category::NAME)
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make(Category::NAME)
+                            ->required()
+                            ->unique(table: Category::TABLE, ignorable: fn($record) => $record),
+                    ]),
             ]);
     }
 
@@ -45,6 +56,7 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make(Article::TITLE)->limit(30),
                 Tables\Columns\TextColumn::make(Tag::TABLE . '.' . Tag::NAME)->label('Tags')->badge(),
+                Tables\Columns\TextColumn::make(Category::TABLE . '.' . Category::NAME)->label('Categories')->badge(),
                 Tables\Columns\ToggleColumn::make(Article::IS_PUBLISHED)->sortable(),
                 Tables\Columns\TextColumn::make(Article::CREATED_AT)->since()->sortable(),
             ])

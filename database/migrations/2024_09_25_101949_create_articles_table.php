@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(Article::TABLE, function (Blueprint $table) {
-            $table->uuid(Article::ID);
+            $table->uuid(Article::ID)->primary();
             $table->string(Article::TITLE);
             $table->text(Article::CONTENT);
             $table->boolean(Article::IS_PUBLISHED)->default(false);

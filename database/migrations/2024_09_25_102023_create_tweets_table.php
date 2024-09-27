@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(Tweet::TABLE, function (Blueprint $table) {
-            $table->uuid(Tweet::ID);
+            $table->uuid(Tweet::ID)->primary();
             $table->text(Tweet::CONTENT);
             $table->boolean(Tweet::IS_PUBLISHED)->default(false);
             $table->timestamps();

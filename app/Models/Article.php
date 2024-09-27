@@ -39,4 +39,17 @@ class Article extends Model
      */
     const IS_PUBLISHED = 'is_published';
     const DELETED_AT = 'deleted_at';
+
+    /**
+     * Relations
+     */
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            Category::class,
+            ArticleCategory::TABLE,
+            ArticleCategory::ARTICLE_ID,
+            ArticleCategory::CATEGORY_ID,
+        );
+    }
 }
